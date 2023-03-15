@@ -163,7 +163,7 @@ def read_list(s):
         tokens.append(token)
 
     if s == "" or s[0] != ')':
-        raise ValueError("Unbalanced parens")
+        raise TokenizeFailed("Unbalanced parens")
 
     return tokens, s[1:]
 
