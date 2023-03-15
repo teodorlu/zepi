@@ -1,5 +1,9 @@
 # Zepi
 
+    $ python zepi.py repl
+    > (+ 1 2 (* 3 4))
+    15
+
 Roam notes: https://roamresearch.com/#/app/teod/page/nPPgnPW04
 
 ## Motivation
