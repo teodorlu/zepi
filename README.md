@@ -12,7 +12,7 @@ If we don't know the past, we'll repeat it. If we don't know our foundations, we
 
 So, let's make a little language and see how that feels.
 
-**Q: I want a Python lisp, what should I look at?**
+**Q: I want a good Python-based lisp, what should I look at?**
 
 http://hylang.org/
 
