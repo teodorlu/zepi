@@ -14,7 +14,7 @@ So, let's make a little language and see how that feels.
 
 **Q: I want a good Python-based lisp, what should I look at?**
 
-http://hylang.org/
+https://hylang.org/
 
 **Q: Why Zepi?**
 
