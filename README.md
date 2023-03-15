@@ -18,7 +18,7 @@ https://hylang.org/
 
 **Q: why Zepi?**
 
-Because I like maing my own tools, and a programming language is an interesting challenge!
+Because I like maing my own tools, and a programming language is an interesting challenge.
 
 **Q: is this useful for anything practical?**
 
