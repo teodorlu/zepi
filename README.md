@@ -16,9 +16,9 @@ So, let's make a little language and see how that feels.
 
 http://hylang.org/
 
-**Q: Why should I care about Zepi?**
+**Q: Why Zepi?**
 
-Because it's small enough to read from start to finish.
+Because I like maing my own tools, and a programming language is an interesting challenge!
 
 ## How to run zepi
 
