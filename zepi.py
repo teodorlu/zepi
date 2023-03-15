@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+# we'll allow these dependencies because we're not cavemen :)
+import functools
+import operator
+
 def is_numeric(ch): return ch in set("0123456789")
 def is_letter(ch): return ch in set("abcdefghijklmnopqrstuvwxyz")
 def is_symbolic(ch): return ch in set("+-*/")
@@ -20,8 +24,13 @@ class MagicFailed(Exception):
     def __str__(self):
         return "Magic failed: " + super().__str__()
 
+class EvalFailed(Exception):
+    def __str__(self):
+        return "Eval failed: " + super().__str__()
+
 class Integer(int):
-    pass
+    def eval(self):
+        return self
 
 def read_num(s):
     if not is_numeric(s[0]):
@@ -35,11 +44,20 @@ def read_num(s):
     return (Integer(int(s[:i])), s[i:])
 
 class Symbol(str):
+    def __init__(self, s):
+        self.s = s
+
     def __repr__(self):
         return "Symbol(" + super().__repr__() + ")"
 
     def __str__(self):
         return super().__str__()
+
+    def eval(self):
+        if self.s == "*":
+            return Fn(lambda x, y: x.eval() * y.eval())
+        elif self.s == "+":
+            return Fn(lambda x, y: x.eval() + y.eval())
 
 def read_symbol(s):
     if not is_letter_or_symbolic(s[0]):
@@ -81,6 +99,8 @@ def read_one(s):
 
 class L(list):
     def __init__(self, *items):
+        # self.items = items
+        # print("ITEMS: ", repr(items))
         super(L, self).__init__(items)
 
     def __repr__(self):
@@ -89,7 +109,29 @@ class L(list):
     def __str__(self):
         return "(" + " ".join(str(x) for x in self) + ")"
 
+    def eval(self):
+        items = [x for x in self]
+        if len(items) == 0:
+            return L()
+        else:
+            f = items[0].eval()
+            args = [i.eval() for i in items [1:]]
+            return f.apply(args)
+
     pass
+
+class Fn:
+    def __init__(self, f):
+        self.f = f
+
+    def apply(self, args):
+        return self.f(*args)
+
+# def apply(fn, args):
+
+#     def apply(self, args):
+#         if self.s == "*":
+#             return functools.reduce(operator.mul, args, 1)
 
 def read_list(s):
     """
@@ -142,7 +184,9 @@ def rep(magic):
         else:
             try:
                 token, _ = read_one(s)
-                print(token)
+                print("token: ", token)
+                evaled = token.eval()
+                print("evaled: ", evaled)
             except TokenizeFailed as e:
                 print(e)
 
