@@ -16,7 +16,7 @@ So, let's make a little language and see how that feels.
 
 https://hylang.org/
 
-**Q: Why Zepi?**
+**Q: why Zepi?**
 
 Because I like maing my own tools, and a programming language is an interesting challenge!
 
