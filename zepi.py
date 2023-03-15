@@ -59,7 +59,11 @@ class Symbol(str):
         elif self.s == "+":
             return Fn.varargs_fn(operator.add, 0)
         elif self.s == "/":
-            return Fn(lambda x, y: x / y) # varargs / is kinda weird, avoid it
+            def divide(*args):
+                if len(args) != 2:
+                    raise EvalFailed(f"/ takes 2 arguments, got {len(args)}")
+                return args[0]/args[1]
+            return Fn(divide) # varargs / is kinda weird, avoid it
 
         raise EvalFailed(f"Unbound symbol: {self.s}")
 
@@ -202,8 +206,6 @@ def rep(magic):
                 print(e)
             except EvalFailed as e:
                 print(e)
-            except TypeError as e:
-                print("TypeError: " + str(e))
 
 def repl(magic=None):
     if not magic:
