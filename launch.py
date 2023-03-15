@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 
+# A launch script for Zepi that adds support for self reloading
+#
+# If you're interested in hotloading for a fast Python feedback loop, check out
+# teodorlu/hotload:
+#
+#   https://github.com/teodorlu/hotload
+
 import importlib
 import zepi
 
