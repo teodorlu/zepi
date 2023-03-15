@@ -20,6 +20,9 @@ class MagicFailed(Exception):
     def __str__(self):
         return "Magic failed: " + super().__str__()
 
+class Integer(int):
+    pass
+
 def read_num(s):
     if not is_numeric(s[0]):
         raise TokenizeFailed(f"Invalid number: {s}")
@@ -29,10 +32,14 @@ def read_num(s):
         if not is_numeric(s[i]):
             break
         i = i + 1
-    return (int(s[:i]), s[i:])
+    return (Integer(int(s[:i])), s[i:])
 
 class Symbol(str):
-    pass
+    def __repr__(self):
+        return "Symbol(" + super().__repr__() + ")"
+
+    def __str__(self):
+        return super().__str__()
 
 def read_symbol(s):
     if not is_letter_or_symbolic(s[0]):
@@ -64,32 +71,23 @@ def read_one(s):
     if is_numeric(s[i]):
         return read_num(s[i:])
 
-    if is_letter(s[i]):
+    if is_letter_or_symbolic(s[i]):
         return read_symbol(s[i:])
 
     if is_open_paren(s[i]):
         return read_list(s[i+1:])
 
-    raise TokenizeFailed(f"Cannot tokenize character: {s[i]}")
+    raise TokenizeFailed(f"No tokenizer found for character: {s[i]}")
 
 class L(list):
     def __init__(self, *items):
         super(L, self).__init__(items)
 
     def __repr__(self):
-        # Option with commas:
-        #
-        #     return "L(" + super().__repr__()[1:-1] + ")"
         return "(" + " ".join(repr(x) for x in self) + ")"
 
-    pass
-
-def print_every_list_like_in_clojure():
-
-    def repr_space(items):
-        return "(" + " ".join(repr(x) for x in items) + ")"
-
-    list.__repr__ = repr_space
+    def __str__(self):
+        return "(" + " ".join(str(x) for x in self) + ")"
 
     pass
 
