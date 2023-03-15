@@ -15,3 +15,16 @@ http://hylang.org/
 ## Q: Why should I care about Zepi?
 
 Because it's small enough to read from start to finish.
+
+## How to use Zepi
+
+    python zepi.py repl
+
+## How to develop Zepi
+
+    ./repl
+
+This puts you into a special zepi REPL that can also reload the zepi interpreter.
+To reload the zepi interpreter, use the `!zreload` magic command:
+
+    > !zreload
