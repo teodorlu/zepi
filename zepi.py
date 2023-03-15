@@ -109,7 +109,7 @@ def read_list(s):
 
     return tokens, s[1:]
 
-def read_all(s):
+def read_all_NOT_IN_USE(s):
     """
     > read_all("123 3455     ")
     [123, 3455]
