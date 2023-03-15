@@ -13,7 +13,12 @@ def zepi_reload(_invocation):
     importlib.reload(zepi)
 
 def pyeval(invocation):
-    print("eval: ", invocation)
+    invocation = invocation.strip()[len("!pyeval"):]
+    try:
+        print("eval: ", eval(invocation))
+    except:
+        import traceback
+        traceback.print_exc()
 
 def magic_kaboom(invocation):
     raise zepi.MagicFailed("💥")
