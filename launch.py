@@ -23,10 +23,15 @@ def pyeval(invocation):
 def magic_kaboom(invocation):
     raise zepi.MagicFailed("💥")
 
+def spells(_invocation):
+    for k in magic.keys():
+        print(k)
+
 magic = {
     "!zreload": zepi_reload,
     "!pyeval": pyeval,
     "!kaboom": magic_kaboom,
+    "!spells": spells
 }
 
 if __name__ == '__main__':
