@@ -7,9 +7,13 @@ def is_whitespace(ch): return ch == ' '
 def is_open_paren(ch): return ch == '('
 def is_close_paren(ch): return ch == ')'
 
+class TokenizeException(Exception):
+    def __init__(self, description):
+        self.description = description
+
 def read_num(s):
     if not is_numeric(s[0]):
-        raise ValueError(f"Invalid number: {s}")
+        raise TokenizeException(f"Invalid number: {s}")
 
     i = 0
     while i < len(s):
@@ -23,7 +27,7 @@ class Symbol(str):
 
 def read_symbol(s):
     if not is_letter(s[0]):
-        raise ValueError(f"Invalid symbol: {s}")
+        raise TokenizeException(f"Invalid symbol: {s}")
 
     i = 0
     while i < len(s):
@@ -57,7 +61,7 @@ def read_one(s):
     if is_open_paren(s[i]):
         return read_list(s[i+1:])
 
-    raise ValueError(f"Cannot tokenize character: {s[i]}")
+    raise TokenizeException(f"Cannot tokenize character: {s[i]}")
 
 class L(list):
     def __init__(self, *items):
@@ -90,7 +94,7 @@ def read_list(s):
     while s != "" and s[0] != ')':
         token, s = read_one(s)
         if token == None:
-            raise ValueError("Unbalanced parens")
+            raise TokenizeException("Unbalanced parens")
         tokens.append(token)
 
     if s == "" or s[0] != ')':
@@ -134,11 +138,15 @@ def rep(magic):
     except KeyboardInterrupt:
         print()
         return "BREAK"
-    if s.strip() in magic:
-        magic[s.strip()]()
     else:
-        token, _ = read_one(s)
-        print(token)
+        try:
+            if s.strip() in magic:
+                magic[s.strip()]()
+            else:
+                token, _ = read_one(s)
+                print(token)
+        except TokenizeException as e:
+            print(e)
 
 def repl(magic=None):
     if not magic:
