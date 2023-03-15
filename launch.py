@@ -9,11 +9,19 @@
 import importlib
 import zepi
 
-def zepi_reload():
+def zepi_reload(_invocation):
     importlib.reload(zepi)
 
-magic={
-    "!zreload": zepi_reload
+def pyeval(invocation):
+    print("eval: ", invocation)
+
+def magic_kaboom(invocation):
+    raise zepi.MagicFailed("💥")
+
+magic = {
+    "!zreload": zepi_reload,
+    "!pyeval": pyeval,
+    "!kaboom": magic_kaboom,
 }
 
 if __name__ == '__main__':

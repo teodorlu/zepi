@@ -2,18 +2,27 @@
 
 def is_numeric(ch): return ch in set("0123456789")
 def is_letter(ch): return ch in set("abcdefghijklmnopqrstuvwxyz")
+def is_symbolic(ch): return ch in set("+-*/")
+
 def is_numeric_or_letter(ch): return is_numeric(ch) or is_letter(ch)
+def is_letter_or_symbolic(ch): return is_letter(ch) or is_symbolic(ch)
+def is_numeric_or_letter_or_symbolic(ch): return is_numeric(ch) or is_letter(ch) or is_symbolic(ch)
+
 def is_whitespace(ch): return ch == ' '
 def is_open_paren(ch): return ch == '('
 def is_close_paren(ch): return ch == ')'
 
-class TokenizeException(Exception):
-    def __init__(self, description):
-        self.description = description
+class TokenizeFailed(Exception):
+    def __str__(self):
+        return "Tokenize failed: " + super().__str__()
+
+class MagicFailed(Exception):
+    def __str__(self):
+        return "Magic failed: " + super().__str__()
 
 def read_num(s):
     if not is_numeric(s[0]):
-        raise TokenizeException(f"Invalid number: {s}")
+        raise TokenizeFailed(f"Invalid number: {s}")
 
     i = 0
     while i < len(s):
@@ -26,12 +35,12 @@ class Symbol(str):
     pass
 
 def read_symbol(s):
-    if not is_letter(s[0]):
-        raise TokenizeException(f"Invalid symbol: {s}")
+    if not is_letter_or_symbolic(s[0]):
+        raise TokenizeFailed(f"Invalid symbol: {s}")
 
     i = 0
     while i < len(s):
-        if not is_numeric_or_letter(s[i]):
+        if not is_numeric_or_letter_or_symbolic(s[i]):
             break
         i = i + 1
 
@@ -61,7 +70,7 @@ def read_one(s):
     if is_open_paren(s[i]):
         return read_list(s[i+1:])
 
-    raise TokenizeException(f"Cannot tokenize character: {s[i]}")
+    raise TokenizeFailed(f"Cannot tokenize character: {s[i]}")
 
 class L(list):
     def __init__(self, *items):
@@ -94,7 +103,7 @@ def read_list(s):
     while s != "" and s[0] != ')':
         token, s = read_one(s)
         if token == None:
-            raise TokenizeException("Unbalanced parens")
+            raise TokenizeFailed("Unbalanced parens")
         tokens.append(token)
 
     if s == "" or s[0] != ')':
@@ -115,20 +124,6 @@ def read_all(s):
             break
         tokens.append(token)
 
-    return tokens
-
-def cmd_self_reload():
-    """Reload zepi itself
-
-    First step towards interactive programming!"""
-    import importlib
-    module = importlib.import_module("zepi")
-    importlib.reload(module)
-
-magic = {
-    "!zreload": cmd_self_reload
-}
-
 def rep(magic):
     try:
         s = input("> ")
@@ -139,14 +134,19 @@ def rep(magic):
         print()
         return "BREAK"
     else:
-        try:
-            if s.strip() in magic:
-                magic[s.strip()]()
-            else:
+        if s[0] == "!":
+            # we're gonna try magic
+            try:
+                magic_command = s.split()[0]
+                magic[magic_command](s)
+            except MagicFailed as e:
+                print(e)
+        else:
+            try:
                 token, _ = read_one(s)
                 print(token)
-        except TokenizeException as e:
-            print(e)
+            except TokenizeFailed as e:
+                print(e)
 
 def repl(magic=None):
     if not magic:
