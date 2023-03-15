@@ -15,7 +15,7 @@ def zepi_reload(_invocation):
 def pyeval(invocation):
     invocation = invocation.strip()[len("!pyeval"):]
     try:
-        print("eval: ", eval(invocation))
+        print(eval(invocation))
     except:
         import traceback
         traceback.print_exc()
