@@ -113,26 +113,40 @@ def read_all(s):
 
     return tokens
 
-
-def self_reload():
+def cmd_self_reload():
     """Reload zepi itself
 
     First step towards interactive programming!"""
-    pass
+    import importlib
+    module = importlib.import_module("zepi")
+    importlib.reload(module)
 
-magic_commands = {
-    "!self_reload": self_reload
+magic = {
+    "!zreload": cmd_self_reload
 }
 
-def repl():
-    while True:
-        try:
-            s = input("> ")
-        except EOFError:
-            print()
-            break
+def rep(magic):
+    try:
+        s = input("> ")
+    except EOFError:
+        print()
+        return "BREAK"
+    except KeyboardInterrupt:
+        print()
+        return "BREAK"
+    if s.strip() in magic:
+        magic[s.strip()]()
+    else:
         token, _ = read_one(s)
         print(token)
+
+def repl(magic=None):
+    if not magic:
+        magic = {}
+    while True:
+        r = rep(magic)
+        if r == "BREAK":
+            break
 
 if __name__ == '__main__':
     import sys
