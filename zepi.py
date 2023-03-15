@@ -55,9 +55,13 @@ class Symbol(str):
 
     def eval(self):
         if self.s == "*":
-            return Fn(lambda x, y: x.eval() * y.eval())
+            return Fn.varargs_fn(operator.mul, 1)
         elif self.s == "+":
-            return Fn(lambda x, y: x.eval() + y.eval())
+            return Fn.varargs_fn(operator.add, 0)
+        elif self.s == "/":
+            return Fn(lambda x, y: x / y) # varargs / is kinda weird, avoid it
+
+        raise EvalFailed(f"Unbound symbol: {self.s}")
 
 def read_symbol(s):
     if not is_letter_or_symbolic(s[0]):
@@ -127,6 +131,13 @@ class Fn:
     def apply(self, args):
         return self.f(*args)
 
+    @staticmethod
+    def varargs_fn(function, initial):
+        def varags(*args):
+            return functools.reduce(function, args, initial)
+        return Fn(varags)
+
+
 # def apply(fn, args):
 
 #     def apply(self, args):
@@ -189,6 +200,10 @@ def rep(magic):
                 print("evaled: ", evaled)
             except TokenizeFailed as e:
                 print(e)
+            except EvalFailed as e:
+                print(e)
+            except TypeError as e:
+                print("TypeError: " + str(e))
 
 def repl(magic=None):
     if not magic:
