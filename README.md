@@ -1,4 +1,4 @@
-# Zepi
+# Zeppelin Interactive
 
     $ python zepi.py repl
     > (+ 1 2 (* 3 4))
