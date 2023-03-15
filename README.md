@@ -43,7 +43,9 @@ If you want gnu-style help with line editing, and command history, wrap it with
 2. Use arrow up to select the last command
 3. Use `ctrl+R` to search in previously entered commands
 
-If you want readline editing with rlwrap and self-reloading, use the `./repl` shell wrapper:
+Most package managers provide `rlwrap`.
+
+If you want readline editing and self-reloading, use the `./repl` shell wrapper:
 
     ./repl
 
@@ -52,4 +54,4 @@ To reload the zepi interpreter, use the `!zreload` magic command:
 
     > !zreload
 
-This is how I develop zepi :)
+This is how I develop zepi!
