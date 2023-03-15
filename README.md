@@ -20,6 +20,10 @@ https://hylang.org/
 
 Because I like maing my own tools, and a programming language is an interesting challenge!
 
+**Q: is this useful for anything practical?**
+
+Nope! Unless you're curious about how the sausage is made.
+
 ## How to run zepi
 
 The most straightforward way is with the `repl` subcommand:
