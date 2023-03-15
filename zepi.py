@@ -63,7 +63,13 @@ class Symbol(str):
                 if len(args) != 2:
                     raise EvalFailed(f"/ takes 2 arguments, got {len(args)}")
                 return args[0]/args[1]
-            return Fn(divide) # varargs / is kinda weird, avoid it
+            return Fn(divide)
+        elif self.s == "-":
+            def subtract(*args):
+                if len(args) != 2:
+                    raise EvalFailed(f"- takes 2 arguments, got {len(args)}")
+                return args[0]-args[1]
+            return Fn(subtract)
 
         raise EvalFailed(f"Unbound symbol: {self.s}")
 
