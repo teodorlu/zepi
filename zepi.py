@@ -149,13 +149,6 @@ class Fn:
             return functools.reduce(function, args, initial)
         return Fn(varags)
 
-
-# def apply(fn, args):
-
-#     def apply(self, args):
-#         if self.s == "*":
-#             return functools.reduce(operator.mul, args, 1)
-
 def read_list(s):
     """
     > read_list("123 456)")
