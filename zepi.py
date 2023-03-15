@@ -61,13 +61,15 @@ class Symbol(str):
         elif self.s == "/":
             def divide(*args):
                 if len(args) != 2:
-                    raise EvalFailed(f"/ takes 2 arguments, got {len(args)}")
+                    expr = "(" + " ".join(["/"] + [str(arg) for arg in args])  + ")"
+                    raise EvalFailed(f"/ takes 2 arguments, got {len(args)}\n\n    {expr}")
                 return args[0]/args[1]
             return Fn(divide)
         elif self.s == "-":
             def subtract(*args):
                 if len(args) != 2:
-                    raise EvalFailed(f"- takes 2 arguments, got {len(args)}")
+                    expr = "(" + " ".join(["-"] + [str(arg) for arg in args])  + ")"
+                    raise EvalFailed(f"- takes 2 arguments, got {len(args)}\n\n    {expr}")
                 return args[0]-args[1]
             return Fn(subtract)
 
