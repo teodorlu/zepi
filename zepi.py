@@ -207,9 +207,8 @@ def rep(magic):
         else:
             try:
                 token, _ = read_one(s)
-                print("token: ", token)
                 evaled = token.eval()
-                print("evaled: ", evaled)
+                print(evaled)
             except TokenizeFailed as e:
                 print(e)
             except EvalFailed as e:
