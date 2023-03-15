@@ -133,7 +133,7 @@ def rep(magic):
         return "BREAK"
     else:
         if s[0] == "!":
-            # we're gonna try magic
+            # let's try magic
             try:
                 magic_command = s.split()[0]
                 magic[magic_command](s)
