@@ -1,0 +1,21 @@
+{
+    "suite": [{
+        "ast": {
+            "type": "call",
+            "op": "+",
+            "args": [
+                {"type": "number", "value": 1},
+                {"type": "number", "value": 2},
+                {
+                    "type": "call",
+                    "op": "*",
+                    "args": [
+                        {"type": "number", "value": 3},
+                        {"type": "number", "value": 4}
+                    ]
+                }
+            ]
+        },
+        "result": {"type": "number", "value": 15}
+    }]
+}
