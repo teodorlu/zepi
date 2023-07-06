@@ -16,4 +16,5 @@ def read_json_file(path):
         jsondata = json.loads(f.read())
     return jsondata
 
-print(read_json_file(sys.argv[1]))
+def todo():
+    suite = read_json_file(sys.argv[1])
