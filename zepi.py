@@ -215,7 +215,34 @@ def repl(magic=None):
         if r == "BREAK":
             break
 
+def jsonsuite(s):
+    """ Run an automated test suite given a JSON format
+
+    Example:
+
+        cat ./testsuite/suite.json | python ./zepi.py jsonsuite
+    """
+    import json
+    suite = json.loads(s)
+    cases = suite["suite"]
+
+    def case_pending(c):
+        # https://blog.oddmundo.com/2019/01/27/test-commit-revert-pending.html
+        if "pending" not in c:
+            return False
+        else:
+            return c["pending"]
+        pass
+
+    for c in cases:
+        if not case_pending(c):
+            print(c["ast"])
+            print(c["result"])
+    pass
+
 if __name__ == '__main__':
     import sys
     if len(sys.argv) >= 2 and sys.argv[1] == "repl":
         repl()
+    elif len(sys.argv) >= 2 and sys.argv[1] == "jsonsuite":
+        jsonsuite(sys.stdin.read())
