@@ -1,6 +1,25 @@
 #!/usr/bin/env python3
 
-# A launch script for Zepi that adds support for self reloading
+# Develop Zepi with rapid feedback
+#
+# Quickstart
+# ==========
+#
+# I prefer to have the following when I work with zepi:
+#
+# - Proper readline editing (Ctrl+R, cursor movement, etc)
+# - A REPL
+# - The ability to reload the language without restarting the REPL
+#
+# To get that workflow, please run:
+#
+#     rlwrap python launch.py repl
+#
+# Where rlwrap priovides GNU readline-style command editing. rlwrap can be
+# downloaded from https://github.com/hanslub42/rlwrap.
+#
+# References
+# ==========
 #
 # Inspired by hotload:
 #
