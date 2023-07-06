@@ -28,21 +28,21 @@
 import importlib
 import zepi
 
-def zepi_reload(_invocation):
+def zepi_reload(_incantation):
     importlib.reload(zepi)
 
-def pyeval(invocation):
-    invocation = invocation.strip()[len("!pyeval"):]
+def pyeval(incantation):
+    incantation = incantation.strip()[len("!pyeval"):]
     try:
-        print(eval(invocation))
+        print(eval(incantation))
     except:
         import traceback
         traceback.print_exc()
 
-def magic_kaboom(invocation):
+def magic_kaboom(_incantation):
     raise zepi.MagicFailed("💥")
 
-def spells(_invocation):
+def spells(_incantation):
     for k in magic.keys():
         print(k)
 
