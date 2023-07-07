@@ -215,6 +215,19 @@ def repl(magic=None):
         if r == "BREAK":
             break
 
+def json2zepi(json):
+    return 1
+
+def zepi2json(zepi):
+    return {"type": "number", "value": 1}
+
+def zepjson_equal(json1, json2):
+    assert "type" in json1 and "type" in json2, "zepi json values must have a type"
+
+    if json1["type"] == "number":
+        return json2["type"] == "number" and json1["value"] == json2["value"]
+
+
 def jsonsuite(s):
     """ Run an automated test suite given a JSON format
 
@@ -234,10 +247,16 @@ def jsonsuite(s):
             return c["pending"]
         pass
 
+    passes = 0
+    failures = 0
+
     for c in cases:
         if not case_pending(c):
+
             print(c["ast"])
             print(c["result"])
+            print("equal?", zepjson_equal(c["ast"], c["result"]))
+
     pass
 
 if __name__ == '__main__':
@@ -245,4 +264,4 @@ if __name__ == '__main__':
     if len(sys.argv) >= 2 and sys.argv[1] == "repl":
         repl()
     elif len(sys.argv) >= 2 and sys.argv[1] == "jsonsuite":
-        jsonsuite(sys.stdin.read())
+        sys.exit(jsonsuite(sys.stdin.read()))
